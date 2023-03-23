@@ -4,7 +4,7 @@ import { ContactItem } from './contactItem';
 import { nanoid } from 'nanoid';
 import { FormCreateContact } from 'components/form/form';
 import { Filter } from 'components/filter/filter';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import './contacts.css';
 
 export class ContactsList extends Component {
@@ -15,22 +15,22 @@ export class ContactsList extends Component {
     number: '',
   };
 
-  componentDidMount(){
-    const local = JSON.parse(localStorage.getItem('contacts'))
+  componentDidMount() {
+    const local = JSON.parse(localStorage.getItem('contacts'));
     console.log(local);
-    if(local !== null){
-      this.setState({...this.state, contacts: local.contacts})
+    if (local !== null) {
+      this.setState({ ...this.state, contacts: local.contacts });
     }
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevState.contacts.length !== this.state.contacts.length){
-      const contact = {contacts: this.state.contacts}
-      localStorage.setItem('contacts', JSON.stringify(contact))
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      const contact = { contacts: this.state.contacts };
+      localStorage.setItem('contacts', JSON.stringify(contact));
     }
   }
 
-  transformNumber = (number) => {
+  transformNumber = number => {
     let numberArr = number.split('');
     return `${numberArr.slice(0, 3).join('')}-${numberArr
       .slice(3, 5)
@@ -38,7 +38,6 @@ export class ContactsList extends Component {
   };
 
   setNewContact = ({ name, number, ev }) => {
-    
     const names = this.state.contacts.map(el => {
       return el.name.toLowerCase();
     });
@@ -47,18 +46,16 @@ export class ContactsList extends Component {
     });
     if (names.includes(name.toLowerCase())) {
       alert(`${name} is already in contacts`);
-      return
-    } 
-    else if(numbers.includes(Number(number))){
-      alert(`${this.transformNumber(number)} is already in contacts`)
-      return
-    } 
-    else {
-      this.setState((prevState) =>{
-        let arr = [...prevState.contacts]
-        arr.push({ name, number, key: nanoid() })
-        return({...this.state, name: name, number: number, contacts: arr})
-      })
+      return;
+    } else if (numbers.includes(Number(number))) {
+      alert(`${this.transformNumber(number)} is already in contacts`);
+      return;
+    } else {
+      this.setState(prevState => {
+        let arr = [...prevState.contacts];
+        arr.push({ name, number, key: nanoid() });
+        return { ...this.state, name: name, number: number, contacts: arr };
+      });
     }
     ev.target.reset();
   };
@@ -118,5 +115,5 @@ export class ContactsList extends Component {
 }
 
 ContactsList.propTypes = {
-  state: PropTypes.object
-}
+  state: PropTypes.object,
+};

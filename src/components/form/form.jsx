@@ -45,6 +45,6 @@ export class FormCreateContact extends Component {
   }
 }
 
-FormCreateContact.propTypes ={
-  setNewState: PropTypes.func
-}
+FormCreateContact.propTypes = {
+  setNewState: PropTypes.func,
+};

@@ -23,6 +23,6 @@ export class Filter extends Component {
   }
 }
 
-Filter.propTypes ={
-  setFilter: PropTypes.func
-}
+Filter.propTypes = {
+  setFilter: PropTypes.func,
+};
