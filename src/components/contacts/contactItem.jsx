@@ -3,7 +3,7 @@ import { Component } from 'react';
 
 export class ContactItem extends Component {
   deletContact = () => {
-    this.props.deleteFromState(this.props.state.key);
+    this.props.deleteFromState(this.props.state.id);
   };
 
   render() {

@@ -7,7 +7,7 @@ import { Filter } from 'components/filter/filter';
 import PropTypes from 'prop-types';
 import './contacts.css';
 
-export class ContactsList extends Component {
+export class App extends Component {
   state = {
     contacts: [],
     filter: '',
@@ -38,42 +38,40 @@ export class ContactsList extends Component {
   };
 
   setNewContact = ({ name, number, ev }) => {
-    const names = this.state.contacts.map(el => {
-      return el.name.toLowerCase();
+    const names = this.state.contacts.filter(el => {
+      return (el.name.toLowerCase() === name.toLowerCase());
     });
-    const numbers = this.state.contacts.map(el => {
-      return Number(el.number);
+    const numbers = this.state.contacts.filter(el => {
+      return (Number(el.number) === Number(number));
     });
-    if (names.includes(name.toLowerCase())) {
+    if (names.length !== 0) {
       alert(`${name} is already in contacts`);
       return;
-    } else if (numbers.includes(Number(number))) {
+    } else if (numbers.length !== 0) {
       alert(`${this.transformNumber(number)} is already in contacts`);
       return;
     } else {
       this.setState(prevState => {
         let arr = [...prevState.contacts];
-        arr.push({ name, number, key: nanoid() });
+        arr.push({ name, number, id: nanoid() });
         return { ...this.state, name: name, number: number, contacts: arr };
       });
     }
     ev.target.reset();
   };
 
-  deleteFromState = key => {
-    let newState = { ...this.state };
-    newState.contacts = newState.contacts.filter(el => {
-      if (el.key !== key) {
+  deleteFromState = id => {
+    let newContact = [...this.state.contacts];
+    newContact = newContact.filter(el => {
+      if (el.id !== id) {
         return el;
       }
     });
-    this.setState({ ...newState });
+    this.setState({ contacts: newContact });
   };
 
   setFilter = filter => {
-    let newState = { ...this.state };
-    newState.filter = filter;
-    this.setState({ ...newState });
+    this.setState({ filter: filter });
   };
 
   render() {
@@ -101,7 +99,7 @@ export class ContactsList extends Component {
               return (
                 <ContactItem
                   state={el}
-                  key={el.key}
+                  key={el.id}
                   deleteFromState={this.deleteFromState}
                   transformNumber={this.transformNumber}
                 />
